@@ -37,7 +37,10 @@ jobs:
         id: run-tests
         run: npm run test
       - name: Upload test report
-        if: steps.run-tests.outcome == 'failure'
+        # below steps checks previous steps failure but github actions still prevents execution of this step
+        #if : steps.run-tests.outcome == 'failure'
+        # failure() function check any previous steps failed or not
+        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v3
         with:
           name: test-report
