@@ -2,7 +2,7 @@ name: Website Deployment
 on:
   push:
     branches:
-      - main
+      - dev_S07L88
 jobs:
   lint:
     runs-on: ubuntu-latest
