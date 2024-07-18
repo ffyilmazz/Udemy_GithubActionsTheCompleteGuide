@@ -73,6 +73,10 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable_workflow.yml
+    # L98 - Adding Input to reusable workflow begins
+    with:
+      artifact-name: dist-files
+    # L98 - Adding Input to reusable workflow ends
   report:
     # this job write a message and github context on terminal if any existing job fails
     needs: [lint,deploy]
