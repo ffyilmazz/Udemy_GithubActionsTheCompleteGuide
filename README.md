@@ -57,3 +57,6 @@ Section 07 - Controlling Workflow & Job Execution
         deploy:
         needs: build
         uses: ./.github/workflows/reusable_workflow.yml
+
+- L98 Adding Inputs to Reuasable Workflows
+    - Screenshots folder is created and screenshots are added.
