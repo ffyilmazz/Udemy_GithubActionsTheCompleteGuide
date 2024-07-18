@@ -2,7 +2,7 @@ name: Website Deployment (continue-on-error)
 on:
   push:
     branches:
-      - dev_S07L88
+      - feature/S07**
 jobs:
   lint:
     runs-on: ubuntu-latest
