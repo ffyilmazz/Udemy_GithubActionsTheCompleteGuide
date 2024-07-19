@@ -1,0 +1,18 @@
+# This action.yml file is created in L115 Creating Composite Action lecture
+name:
+description:
+runs:
+  using: 'composite' # there shouldn't be any typo
+    steps:
+      # steps are same as they are in workflow files
+      # actions from other repos can be used in the same way
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+        shell: bash # For terminal commands additional "shell: bash" should be added
