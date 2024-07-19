@@ -9,8 +9,10 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      # L116 using custom actions in workflows begins
       - name: Load and cache dependencies
-        uses: ./.github/actions\cached-dependencies\action.yml
+        uses: ./.github/actions/cached-dependencies
+      # L116 ends
       - name: Lint code
         run: npm run lint
   test:
