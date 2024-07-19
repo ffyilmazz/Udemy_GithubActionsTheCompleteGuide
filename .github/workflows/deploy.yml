@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
       # L116 using custom actions in workflows begins
       - name: Load and cache dependencies
-        uses: .github/actions/cached-dependencies
+        uses: ./.github/actions/cached-dependencies/action.yml
       # L116 ends
       - name: Lint code
         run: npm run lint
