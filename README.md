@@ -11,3 +11,5 @@ S09-Building and Using Custom Actions
     2- Different types of custom actions
     3- Building and using custom actions
 - https://github.com/marketplace
+- Separate actions/action.yml file is needed for definition and configuration.
+- 
