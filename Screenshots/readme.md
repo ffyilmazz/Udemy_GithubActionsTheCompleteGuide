@@ -1,0 +1,1 @@
+Screenshots folder is created for screenshots taken from course lectures.
