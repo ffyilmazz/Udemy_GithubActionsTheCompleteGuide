@@ -1,0 +1,477 @@
+Section 1 - Getting Started 
+===========================
+- Github actions is a sevice provided b Github to enable to automate code or repository management related processes and workflows.
+- 
+
+Section 2 - Git and Github Crash Course
+=======================================
+- git init
+- git add <file(s)> => stage changes for next commit
+- git commit => create a commit that includes all staged changes
+    git commit -m "<message>"
+- git log
+- git checkout <id> : move between commits
+- git log
+- example
+    1- update index.html file
+    2- create new commit
+    3- git checkout <old commit id>
+    4- git checkout main (or master, whatever branch name)
+
+Reverting changes with "git revert"
+    - git revert <commit id> : sadece verilen commit'teki değişiklikleri geri alıp yeni commit oluşturuyor.
+
+Resetting code with "git reset"
+    - git reset --hard <id> : verilen id'li commit'ten sonraki commitler silinir.
+
+Staging multiple files and Ignoring with gitignore
+    - create ".gitignore" file
+    - add below
+    .vscode
+    .DS_Store (mac file)
+    - git add .
+    - git commit -m "added logo and styling"
+
+Understanding Branches
+    - git branch <name> : based on HEAD, creates new branch
+    - git merge <name> : merge branches
+
+Working with Branches
+    - git branch : list existing branches and active branch
+    - git checkout <branch name>
+    - git branch -D <branch name> : delete branch
+    - git checkout -b <branch name> : create and checkout branch at the same time
+
+Merging Branhes
+    - git checkout master
+    - git merge new-branch
+    
+Github Introduction
+    - other companies GitLab
+    - Github repository : Git repository on cloud 
+
+Creating a Github account
+
+Creating a (Remote) Github Repository
+
+Connecting Local & Remote Repository
+    - git remote add origin <github repository link> : origin is local identifier ot that repository
+    - multiple connections to multiple remote repositories can be made
+    
+25- Pushing Commits and Understanding Permissions
+    - git push => hangi branch'e push'layacağını bilmediği için error
+    - git push origin main => permission error bu sefer
+    - git remote set-url origin <link> : kullanıcı adını vs yazdıi token oluşturup VS'de girdi
+    - ama github'te farklı yaptı
+        …or push an existing repository from the command line
+        git remote add origin https://github.com/ffyilmazz/GitCrashCourse.git
+        git branch -M main
+        git push -u origin main
+
+26- Github & Branches
+    - git checkout -b branch1
+    - do changes and commit them
+    - git push origin <branch name> => otomatik olarak yükledi ve yeni branch oluşturdu Github'ta da
+    - git checkout main
+    - git merge branch1
+    - branch1 can be deleted from Github or locally by "git branch -D <branch name>
+    
+27- Readme files & Pulling Changes
+
+28- Cloning repositories
+    - Github Projects 
+    - Github Wiki
+    - Github Security
+    - Github Insights => Analytics about repository
+
+29- Making Changes as a Different User (Non owner)
+30- Github Issues - Collaborators
+    - İkinci hesaptan issue oluşturdu.
+    - İkinci kişiyi collaborator olarak ekledi => Settings-Collaborators
+    - git remote set-url origin https://<second user name>github.com/ffyilmazz/GitCrashCourse.git
+        => personal access token => settings-PAT-Generate
+
+31- Workng with Pull Requests
+
+32- Understanding and Using Forks
+    - account 2 is removed from collaborator
+    - fork simply copies repository under account 2
+    - git remote set-url origin https://<second user name>github.com/ffyilmazz/GitCrashCourse.git
+    - create new branch & change sth & git add & git commit
+    - git push origin <new branch name>
+    - account 1-open new PR-click compare across forks => account 1'den girdi ve oluşturulan PR'i kabul etti
+    
+33- Module Summary
+
+Section 3 - Github Actions - Basic Building Blocks & Components
+===============================================================
+
+35- Key Components: Workflows, Jobs, Steps and More
+    - So this workflow thing is kind of the first thing you build or you create when setting up an automation process
+      with GitHub Actions.
+    - Workflow consist of jobs, job consist of steps
+    - Every job defines a so-called runner which is simply the execution environment, the machine and operating system
+      that will be used for executing these steps.
+
+37- Creating a first workflow
+    - Created dummy repository on Github
+    - Created dummy workflow with basic syntax. => workflow with 1 jobs consisting of 2 steps
+
+38- Running the first workflow
+    - SS
+    
+39- Runing multiline shell commands
+    - If you need to run multiple shell commands (or multi-line commands, e.g., for readability), you can easily do so 
+      by adding the pipe symbol (|) as a value after the run: key:
+            ...
+            run: |
+                echo "First output"
+                echo "Second output"
+
+      This will run both commands in one step.
+
+41- New workflow and the "push" event
+    - .github/workflows/<filename, ex: test.yml> => klasör ismi aynı olmalı, filename farklı olabilir
+    - file structure
+        name: <any name, ex: Test Project>
+        on: <event that trigger, ex: push>
+        jobs:
+            <jobs>
+            test:
+                runs-on: <runner, ex:ubuntu-latest>
+                steps:
+                    - name: Get code (download code from repository)
+                    
+    - workflows does not run on Github repositories, they run on
+      github servers. Workflows are related to repositories
+
+42- Using Actions in Workflow
+    - https://github.com/actions/checkout
+    
+43- Checking out Code in Workflows
+    - file structure
+        name: <any name, ex: Test Project>
+        on: <event that trigger, ex: push>
+        jobs:
+            <jobs>
+            test:
+                runs-on: <runner, ex:ubuntu-latest>
+                steps:
+                    - name: Get code (download code from repository)
+                    - uses: actions/checkout@v4
+                    - <with:> 
+    - 'uses' keyword is used for action
+    - "with" keyword is used for configuration for an action
+
+44- Configuring Actions
+    - https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
+    - there are severeal sw preinstalled on runners.
+    - for node.js repository => node.js is preinstalled on ubuntu latest
+    - name: Install NodeJS
+      uses: actions/setup-node@v3 => https://github.com/actions/setup-node
+      with:
+        node-version: '18' => ubuntu-latest runner may have different version installed by default
+
+45- Adding more workflow Job Steps
+    - name Install dependencies
+      run: npm ci => shell command to install dependencies
+      name: Run tests
+      run npm test => shell command to run tests
+    - add newly created workflow file to repository
+    - git push hata verdi ve Personal Access Token oluşturdu, workflow'lara izin vererek
+    
+46- Failing Workflows & Analyzing Workflows
+    - node js repo'da test dosyalarından birini değiştirdi ve test fail yaptı
+    - commit to repo
+    - another workflow started automatically on Github
+    - git log => testte mantık hatası olduğunu gördü ve son commit'i "git revert" yaptı
+
+47- Adding Multiple Jobs
+    - Important: Every job has its own runner!
+    - Jobs are ran in parallel!
+    - new job is created: => Screenshot 2024-07-08 at 14-35-24 Course GitHub Actions - The Complete Guide Udemy Business
+    
+48- Jobs: In parallel vs Sequential
+    - needs: <jobs name. ex: job1> => needs keyword ile job1 bittikten sonra başka bir job'u başlatmak için kullanılabiliyor.
+    - Second job wasn't started bcs the first job was failed!
+
+49- Using Multiple Triggers (Events)
+    - on: [push, workflow_dispatch] => multiple trigger usage
+
+50- Expressions and Context Object
+    - metadata made available by github => context
+    - https://docs.github.com/en/actions/learn-github-actions/contexts
+    - https://docs.github.com/en/actions/learn-github-actions/expressions
+    - run: echo "${{ toJSON(github) }}"
+        - ${{}} => special syntax to use some keywords
+        - github => one of the special keywords
+        - toJSON => is an expression or function to print that metadata by github keyword in visible format
+
+51- Module Summary
+First option:
+    name: First workflow - Deployment Exercise 1
+    on: push
+    jobs:
+        job1:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Get the code first message
+                  run: echo ">>> Getting the code github/checkout@v3 action"
+                - name: Get the code
+                  uses: actions/checkout@v3
+                - name: Install dependencies
+                  run: npm ci
+                - name: Lint
+                  run: npm run lint
+                - name: Run test code
+                  run: npm run test
+                - name: Build code
+                  run: npm run build
+                - name: Deploy the code
+                  run: echo "Deploying..."
+Second Option:
+    name: First workflow - Deployment Exercise 1
+    on: push
+    jobs:
+        job1-lint:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Get the code first message
+                  run: echo ">>> Getting the code github/checkout@v3 action"
+                - name: Get the code
+                  uses: actions/checkout@v3
+                - name: Install dependencies
+                  run: npm ci
+                - name: Lint
+                  run: npm run lint
+        job2-test:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Get the code first message
+                  run: echo ">>> Getting the code github/checkout@v3 action"
+                - name: Get the code
+                  uses: actions/checkout@v3
+                - name: Install dependencies
+                  run: npm ci
+                - name: Run test code
+                  run: npm run test
+        job3-deploy:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Get the code first message
+                  run: echo ">>> Getting the code github/checkout@v3 action"
+                - name: Get the code
+                  uses: actions/checkout@v3
+                - name: Install dependencies
+                  run: npm ci
+                - name: Build code
+                  run: npm run build
+                - name: Deploy the code
+                  run: echo "Deploying..."
+
+Section 4 - Github Actions - Basic Building Blocks & Components
+===============================================================
+- Summary
+    - Events
+        1- Repository related events (push, pull_request, pull, fork etc..)
+        2- Others (workflow_dispatch, repository_dispatch, schedule, workflow_call)
+    - Events
+        1- Activity types => pull_request : opened, closed, edited etc different states
+        2- Filters        => push         : filter based on target branch etc
+- links:
+    1- https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows => activity types can be found
+    2- https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+    3- https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+    4- https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
+- Example workflow
+    name: <workflow name>
+    on: <events> => example: push (for single event), [push, workflow_dispatch] (for multiple events)
+    jobs:
+        <job name1> => ex: deploy
+            runs-on: ubuntu-latest
+            steps:
+                - name: <descriptive name for a step>
+                  run: <for simple shell command(s)>
+                  uses: <for github actions> => ex: actions/checkout@v4
+        <job name2>
+        <job name3>
+        ...
+- for event activity type
+    on:
+        pull_request:
+            types:
+                - opened
+        workflow_dispatch:
+        push:
+            branches:
+                - main
+                - 'dev-*' => * ignores multiple characters => link #3
+                - 'feat/**' => ** ignores multiple slashes
+            paths-ignore:
+                - '.github/workflows/*' => updates in workflows won't trigger workflow execution
+- Forks by 3rd party users won't trigger workflows when they open PR by default! 
+- Cancelling and skipping workflows
+    - Cancel manually when workflow is triggered
+    - skip workflows with a commit message
+        "<some comment> [skip ci]" => link #4
+        
+        
+Section 5 - Job Artifacts and Outputs
+=====================================
+- Links        
+    1- https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context
+    2- https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+    3- https://github.com/actions/cache
+- web-hosting providers has their own actions to upload files to them.
+- İkinci job'un, kendisinden önceki job'tan bir arifact kullanabilmesi için ona bağımlı olması yani ondan sonra koşması, paralel
+  koşmaması gerekiyor (needs: <first job>). 
+- example:
+  first job
+  - name: Download artifacts
+    uses: actions/download-artifact@v3
+    with:
+        name: dist-files
+        path: dist
+  second job that depends on first job
+  - name: Upload artifacts
+    uses: actions/upload-artifacts@v3
+    with:
+      name: dist-files
+  - name: Check uploaded files
+    runs: ls -l #cd yapmana gerek kalmadan o path'de kalıyormuş
+- Difference betweens artifacts and job Outputs (values) (ex: name of a file)
+- bir klasörde js uzantılı dosyaları bulma => find dist/assets/.js type -f
+- output / output value
+    - steplerden önce eklenmeli
+        outputs:
+            script-file: ${{ steps.publish.outputs.script-file }} => steps context
+    - ayrı bir step eklenmeli:
+        - name: Publish js filename
+          id: publish (random name)
+          run: find dist/assets/.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';' (GITHUB_OUTPUT is a special file)
+          (alternatif)
+          run: find dist/assets/.js -type f -execdir echo '::set-output name=script-file::{}'
+          
+
+
+Udemy_GithubActions_S04L65_JobArtifactsAndOutputs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
